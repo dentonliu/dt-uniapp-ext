@@ -1,0 +1,23 @@
+{
+  "name": "dt-uniapp-ext",
+  "version": "1.0.0",
+  "description": "extensions for uniapp",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dentonliu/dt-uniapp-ext.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dentonliu/dt-uniapp-ext/issues"
+  },
+  "homepage": "https://github.com/dentonliu/dt-uniapp-ext#readme",
+  "dependencies": {
+    "path-to-regexp": "^3.0.0"
+  }
+}
