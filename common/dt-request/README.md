@@ -4,7 +4,7 @@
 将下载的组件目录放入common目录，或其他app目录。本组件依赖[path-to-regexp](https://www.npmjs.com/package/path-to-regexp)组件，使用前请自行安装。
 
 ### 作为vue组件
-```
+```JavaScript
 // 导入组件
 import { HttpWidget } from './common/dt-request';
 Vue.use(new HttpWidget());
@@ -16,7 +16,7 @@ this.$http
 ```
 
 ### 作为独立组件
-```
+```JavaScript
 // 导入组件
 import { Http } from './common/dt-request';
 const http = new Http();
@@ -40,7 +40,7 @@ http.post('/auth', { username: 'demo', password: 'demo' })
 
 ### NAME模式
 该模式下接口使用名称来指定，接口路径可以包含参数
-```
+```JavaScript
 // HEAD, OPTIONS, DELETE调用方法相同
 // 第一个参数是接口的名称
 // 第二个参数是路径中的参数对象
@@ -72,7 +72,7 @@ this.$http.patch('user.detail', {username: 'new_name'}, {id: 1});
 
 ### URI模式
 该模式下接口使用相对路径指定
-```
+```JavaScript
 // HEAD, OPTIONS, DELETE调用方法相同
 // 第一个参数是接口的路径
 // 第二个参数可选，可以用来覆盖请求参数
@@ -98,7 +98,7 @@ this.$http.patch('/users/1', {username: 'new_name'});
 
 ### request方法
 依然可以使用request方法直接传请求参数
-```
+```JavaScript
 this.$http.request({
     name: 'user.detail',
     params: {id: 1},
