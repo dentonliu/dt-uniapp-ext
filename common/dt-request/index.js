@@ -17,10 +17,14 @@ import pathToRegexp from "path-to-regexp";
 
 import config from "./config";
 
+const MODE_NAME = 'NAME';
+// const MODE_URI = 'URI';
+
 function Http() {
-    const { baseUrl, apis, interceptor, options } = config;
+    const { baseUrl, mode, apis, interceptor, options } = config;
 
     this.baseUrl = baseUrl;
+    this.mode = mode || MODE_NAME;
     this.apis = apis || [];
     this.interceptor = interceptor || { request: null, response: null };
     this.options = Object.assign(
@@ -42,7 +46,7 @@ function Http() {
 Http.prototype.request = function(options) {
     let api = null;
 
-    if (options.name) {
+    if (this.mode === MODE_NAME) {
         api = getApi(this.apis, options.name, options.params);
 
         if (api !== null) {
@@ -91,16 +95,27 @@ Http.prototype.request = function(options) {
 
         if (typeof name === "object") {
             options = name;
-        } else {
+            return this.request(
+                Object.assign(options, {
+                    method: method.toUpperCase(),
+                })
+            );
+        }
+    
+        options.method = method.toUpperCase();
+        if (this.mode === MODE_NAME) {
             options.name = name;
             options.params = params;
+
+            return this.request(options);
         }
 
-        return this.request(
-            Object.assign(options, {
-                method: method.toUpperCase(),
-            })
-        );
+        options.url = name;
+        if (typeof params === 'object') {
+            options = Object.assign({}, options, params);
+        }
+
+        return this.request(options);
     };
 });
 
@@ -110,17 +125,28 @@ Http.prototype.request = function(options) {
 
         if (typeof name === "object") {
             options = name;
-        } else {
+            return this.request(
+                Object.assign(options, {
+                    method: method.toUpperCase(),
+                })
+            );
+        }
+
+        options.method = method.toUpperCase();
+        if (this.mode === MODE_NAME) {
             options.name = name;
             options.data = data;
             options.params = params;
+            return this.request(options);
         }
 
-        return this.request(
-            Object.assign(options, {
-                method: method.toUpperCase(),
-            })
-        );
+        options.url = name;
+        options.data = data;
+        if (typeof params === 'object') {
+            options = Object.assign({}, options, params);
+        }
+
+        return this.request(options);
     };
 });
 
