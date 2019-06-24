@@ -20,6 +20,9 @@ import config from "./config";
 const MODE_NAME = 'NAME';
 // const MODE_URI = 'URI';
 
+// 请求任务
+let task = null;
+
 function Http() {
     const { baseUrl, mode, apis, interceptor, options } = config;
 
@@ -41,6 +44,13 @@ function Http() {
         },
         options
     );
+}
+
+// 中断请求
+Http.prototype.abort = function() {
+    if (task) {
+        task.abort();
+    }
 }
 
 Http.prototype.request = function(options) {
@@ -85,7 +95,7 @@ Http.prototype.request = function(options) {
             }
         }
 
-        uni.request(newOptions);
+        task = uni.request(newOptions);
     });
 };
 

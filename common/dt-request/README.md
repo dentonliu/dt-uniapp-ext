@@ -113,3 +113,16 @@ this.$http.request({
     url: 'http://api.cn/test', // url为完整地址时，baseUrl则不会附加到地址上
 });
 ```
+
+### 中断请求
+使用对象提供的abort()方法可以中断请求
+```JavaScript
+// 发起请求
+this.$http.request({
+    name: 'user.detail',
+    params: {id: 1},
+});
+
+// 终端请求
+this.$http.abort();
+```
