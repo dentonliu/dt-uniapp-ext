@@ -1,14 +1,9 @@
-import apis from "./apis";
-
+/**
+ * 示例配置文件，可根据实际项目修改
+ */
 export default {
     // 接口主机地址
-    baseUrl: 'http://apis.juhe.cn/',
-
-    // 模式，默认NAME。NAME：接口名模式；URI：相对地址模式
-    mode: 'NAME',
-
-    // 接口配置
-    apis,
+    baseUrl: 'http://apis.juhe.cn',
 
     // 请求默认参数
     options: {
@@ -19,14 +14,19 @@ export default {
 
     // 拦截器
     interceptor: {
-        // 请求拦截器，返回false可以阻止请求执行
-        request: (options, api) => {
-            if (api.auth === 'required') {
-                return false;
+        // 请求拦截器，检测本地是否有token
+        request: (options) => {
+            try {
+                const token = uni.getStorageSync('token');
+                if (token) {
+                    options.header['Authorization'] = `Bearer ${token}`;
+                }
+            } catch(e) {
+                console.log(e);
             }
 
             options.from = 'uniapp';
-            return true;
+            return options;
         },
 
         // 响应拦截器

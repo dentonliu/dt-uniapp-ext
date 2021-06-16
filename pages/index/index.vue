@@ -1,9 +1,18 @@
 <template>
 	<view class="content">
-		<image class="logo" src="/static/logo.png"></image>
-		<view>
-			<text class="title">{{title}}</text>
+        <view class="section">
+            <input type="text" v-model="city" placeholder="输入城市查询天气">
+        </view>
+		<view class="section">
+			<button type="primary" size="mini" @click="getWeather">查询</button>
 		</view>
+        <view class="section">
+            <text>天气: {{weather.info}}</text><br />
+            <text>温度: {{weather.temperature}}摄氏度</text><br />
+            <text>湿度: {{weather.humidity}}</text><br />
+            <text>风向: {{weather.direct}}</text><br />
+            <text>风力: {{weather.power}}</text>
+        </view>
 	</view>
 </template>
 
@@ -11,19 +20,20 @@
 	export default {
 		data() {
 			return {
-				title: 'Hello'
+				city: '',
+                weather: {},
 			}
 		},
         
-        onLoad() {
-            this.getWeather('北京');
-        },
-        
 		methods: {
-            getWeather(city) {
-                this.$http.get('simpleWeather', { city, key: '958e00f37fd7f4a9f6bc12d1eadc29e6' })
+            getWeather() {
+                if (!this.city) {
+                    return;
+                }
+
+                this.$http.get(`/simpleWeather/query?city=${this.city}&key=958e00f37fd7f4a9f6bc12d1eadc29e6`)
                     .then((res) => {
-                        console.log(JSON.stringify(res));
+                        this.weather = res.data.result.realtime;
                     })
                     .catch((err) => {
                         console.log(err);
@@ -35,18 +45,10 @@
 
 <style>
 	.content {
-		text-align: center;
-		height: 400upx;
+        padding: 20rpx;
 	}
 
-	.logo {
-		height: 200upx;
-		width: 200upx;
-		margin-top: 200upx;
-	}
-
-	.title {
-		font-size: 36upx;
-		color: #8f8f94;
-	}
+    .section {
+        margin-bottom: 20rpx;
+    }
 </style>
