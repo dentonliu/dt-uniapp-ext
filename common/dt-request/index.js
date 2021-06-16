@@ -64,7 +64,7 @@ Http.prototype.request = function(options) {
                 newResponse = self.interceptor.response(newResponse);
             }
 
-            if (statusCode == 200) {
+            if (statusCode < 400) {
                 resolve(newResponse);
             } else {
                 reject(newResponse);
